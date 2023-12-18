@@ -1,0 +1,46 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+#Folders
+Space/x64/
+Space/Space/x64/
+Space/.vs/
+FastAndFurious/x64/
+FastAndFurious/FastAndFurious/x64/
+FastAndFurious/.vs/
+Wild Physics/x64/
+Wild Physics/Wild Physics/x64/
+Wild Physics/.vs/
+Bounce/x64/
+Bounce/Bounce/x64/
+Bounce/.vs/
