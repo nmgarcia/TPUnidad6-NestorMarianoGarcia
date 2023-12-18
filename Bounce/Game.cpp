@@ -1,71 +1,69 @@
 #include "Game.h"
 
-Game::Game(int height, int width, string title)
+Game::Game(int width, int height,  string title)
 {
-	_window = new RenderWindow(VideoMode(800, 600, 32), "Wild Gunman Gang");
-	SetBackground();
+	_window = new RenderWindow(VideoMode(width, height, 32), title);
+	_position = new Vector2f(width/2, height/2);
+	_velocity= new Vector2f(0.0f, 0.0f);
+    _deltaTime = 1.0f / 60.0f;
+
 }
 
 void Game::Go()
 {
-	// Main Loop
-	while (_window->isOpen())
-	{
-		ProcessEvent();
-		ProcessCollisions();
-		UpdateGame();
-		
-		_window->clear();
-		DrawGame();		
-		_window->display();
-	}
-}
 
-void Game::ProcessEvent()
-{
-	Event evt;
-	while (_window->pollEvent(evt)) {
+    while (_window->isOpen())
+    {
+        Event event;
+        while (_window->pollEvent(event))
+        {
+            if (event.type == Event::Closed)
+                _window->close();
+        }
 
-		switch (evt.type)
-		{
-		case Event::Closed:
-			_window->close();
-			break;
-		case Event::MouseButtonPressed:
-			if (evt.mouseButton.button == Mouse::Button::Left) {
-				
-			}
-			break;
-		}
-	}
-}
+        _velocity->y += _gravity;
+        *_position += *_velocity;
 
-void Game::UpdateGame()
-{
-}
+        if (_position->y > _window->getSize().y)
+        {
+            _position->y = _window->getSize().y;
+            _velocity->y = -_velocity->y * _bounceFactor;
+        }
 
-void Game::DrawGame()
-{
-	
-	//Draw Scene
-	_window->draw(_backgroundSprite);
+        _window->clear();
 
-	
-}
+        CircleShape object(20.0f);
+        object.setFillColor(Color::Blue);
+        object.setOrigin(object.getLocalBounds().width/2, object.getLocalBounds().height);
+        object.setPosition(*_position);
+        _window->draw(object);
+        _window->display();
+    }
 
-void Game::SetUI()
-{
-}
+    /*Event evt;
+    while (_window->pollEvent(evt))
+    {
+        if (evt.type == Event::Closed)
+            _window->close();
+    }
 
-void Game::SetBackground()
-{
-}
+    _velocity->y += _gravity;
 
-void Game::ProcessCollisions()
-{
-}
+    *_position += *_velocity;
 
-Game::~Game()
-{
-	delete _window;
+    if (_position->y > 600.0f)
+    {
+       _position->y = 600.0f;
+       _velocity->y = -_velocity->y * _bounceFactor;
+    }
+
+    _window->clear();
+
+    CircleShape object(25.0f);
+    object.setPosition(*_position);
+    object.setOrigin(object.getLocalBounds().height / 2, object.getLocalBounds().width / 2);
+    object.setFillColor(Color::Blue);
+    _window->draw(object);
+
+    _window->display();*/
 }

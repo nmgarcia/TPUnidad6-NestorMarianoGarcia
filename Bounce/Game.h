@@ -4,21 +4,15 @@
 class Game
 {
 	RenderWindow* _window;
-	Texture _backgroundTexture;
-	Sprite _backgroundSprite;
+	Vector2f* _position;
+	Vector2f* _velocity;
+	float _deltaTime;
 
-	void ProcessEvent();
-	void UpdateGame();
-	void DrawGame();
-	void SetUI();
-
-	void SetBackground();
-	void ProcessCollisions();
-
+	float _gravity = 0.000098f;
+	float _bounceFactor = 0.5f;
+	
 	public:
-		Game(int height, int width, string title);
+		Game(int width, int height, string title);
 		void Go();
-		
-		~Game();
 };
 
