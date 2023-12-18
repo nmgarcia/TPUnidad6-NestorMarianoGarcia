@@ -1,8 +1,6 @@
 #include "Game.h"
 #include "stdafx.h"
 
-Texture texture;
-Sprite sprite;
 
 int main() {
 	

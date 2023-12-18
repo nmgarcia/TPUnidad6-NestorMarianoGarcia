@@ -4,28 +4,32 @@ Game::Game(int width, int height, string title)
 {
     _window = new RenderWindow(VideoMode(width, height, 32), title);
     _position = new Vector2f(width/2, height/2);
-    _initialSpeed = 1.0f;
+    _initialSpeed = 2.0f;
     _currentSpeed = _initialSpeed;
-    _speedIncrement = 5.0f;
+    _speedIncrement = 2.0f;
     _deltaTime = 1.0f / 60.0f;
+    _finalSpeed = 20.0f;
 }
 
 void Game::Go()
 {
     while (_window->isOpen())
     {
-        Event event;
-        while (_window->pollEvent(event))
+        Event evt;
+        while (_window->pollEvent(evt))
         {
-            if (event.type == Event::Closed)
+            if (evt.type == Event::Closed)
                 _window->close();
         }
 
         _position->x += _currentSpeed * _deltaTime;
 
+       
         if (_position->x >= _window->getSize().x)
         {
-            _currentSpeed += _speedIncrement;
+            if (_currentSpeed <= _finalSpeed) {
+                _currentSpeed += _speedIncrement;
+            }
             _position->x = 0.0f;            
         }
 

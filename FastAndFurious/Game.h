@@ -9,6 +9,7 @@ class Game
 	float _currentSpeed;
 	float _speedIncrement;
 	float _deltaTime;
+	float _finalSpeed;
 
 	public:
 		Game(int height, int width, string title);
