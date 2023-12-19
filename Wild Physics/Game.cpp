@@ -5,10 +5,12 @@
 Game::Game() {
 	_window = new RenderWindow(VideoMode(800, 600, 32), "Clickale");
 	_window->setMouseCursorVisible(false);
-	_enemysAmount = 5;
-	_enemys = new Enemy[_enemysAmount];	
+	_window->setFramerateLimit(60);
+	_enemysAmount = 2;
+	_enemys = new Enemy[_enemysAmount];
 	_playerCrosshair = new PlayerCrosshair();	
 	_points = 0;
+	_currentEnemyActive = 0;
 
 	SetUI();	
 
@@ -52,12 +54,10 @@ void Game::Update() {
 	//Update crosshair position
 	Vector2i mousePosition = Mouse::getPosition(*_window);
 	_playerCrosshair->SetPosition(mousePosition.x,mousePosition.y);
+	
+	if(_points < _enemysAmount)
+		_enemys[_currentEnemyActive].Update(_window);
 
-	for (int i = 0; i < _enemysAmount; i++)
-	{
-		_enemys[i].Update(_window);
-		
-	}
 }
 
 void Game::Draw() {
@@ -107,8 +107,8 @@ void Game::Shoot() {
 	{
 		if (_enemys[i].IsActive()) {			
 			if (_enemys[i].CheckCollision(crossHairPosition.x, crossHairPosition.y) ){
-				cout << "i: " << i << " position: " << _enemys[i]._enemySprite.getPosition().x << " - " << _enemys[i]._enemySprite.getPosition().y << endl;
 				_enemys[i].Kill();
+				_currentEnemyActive++;
 				_points++;
 				UpdatePoints();
 				break;

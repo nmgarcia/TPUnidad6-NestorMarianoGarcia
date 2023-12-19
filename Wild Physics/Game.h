@@ -10,6 +10,7 @@ class Game {
 	PlayerCrosshair* _playerCrosshair;	
 	Enemy* _enemys;
 	int _enemysAmount;
+	int _currentEnemyActive;
 	int _points;
 	Text _pointsText;
 	Text _winText;

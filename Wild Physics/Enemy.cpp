@@ -1,7 +1,6 @@
 #include "Enemy.h"
 #include "stdafx.h"
 
-
 Enemy::Enemy() {
 	_enemyTexture.loadFromFile("et.png");
 	_enemySprite.setTexture(_enemyTexture);
@@ -10,14 +9,18 @@ Enemy::Enemy() {
 	_isVisible = false;
 	_visibleTime = 2.0f;
 	_invisibleTime = 1.0f;
+	_isMRUV = SetRandomBool();
+	_acceleration = 10.0f;
+	_speed = 350.0f;
+	_deltaTime = 1.0f / 60.0f;
 }
 
-Vector2f Enemy::RandomPosition(int x, int y)
+Vector2f Enemy::SetRandomPosition(int y)
 {
-	Vector2f random((float)(rand() % x), (float)(rand() % y));
-	return random;
+	Vector2f random(0, (float)(rand() % y));
+	_position = random;
+	return _position;
 }
-
 
 bool Enemy::IsAlive() {
 	return _isAlive;
@@ -49,14 +52,12 @@ void Enemy::Update(RenderWindow* window) {
 	}
 
 	if (!IsActive()) {
-		//Probability to set active
+		
 		if (_clock.getElapsedTime().asSeconds() > _visibleTime) {
-			_clock.restart();
-			if (rand() % 100 < 50) {
-				_isVisible = true;
-				FloatRect max = _enemySprite.getGlobalBounds();
-				_enemySprite.setPosition(RandomPosition(window->getSize().x - (max.width/2), window->getSize().y - (max.height / 2)));
-			}
+			_clock.restart();			
+			_isVisible = true;
+			FloatRect max = _enemySprite.getGlobalBounds();
+			_enemySprite.setPosition(SetRandomPosition(window->getSize().y - (max.height / 2)));
 		}
 	}
 	else {
@@ -65,5 +66,23 @@ void Enemy::Update(RenderWindow* window) {
 			_clock.restart();
 		}
 	}
+
+	if (_isMRUV) {
+		// Movimiento MRUV
+		_speed += _acceleration * _deltaTime;
+		_position.x += _speed * _deltaTime;
+		_enemySprite.setPosition(_position);
+	}
+	else {
+		// Movimiento MRU
+		_position.x += _speed * _deltaTime;
+		_enemySprite.setPosition(_position);
+	}
 	
+}
+
+bool Enemy::SetRandomBool() {
+	static auto randomNum = bind(uniform_int_distribution<>(0, 1), default_random_engine());
+
+	return randomNum();
 }
