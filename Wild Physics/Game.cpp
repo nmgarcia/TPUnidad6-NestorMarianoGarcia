@@ -6,7 +6,7 @@ Game::Game() {
 	_window = new RenderWindow(VideoMode(800, 600, 32), "Clickale");
 	_window->setMouseCursorVisible(false);
 	_window->setFramerateLimit(60);
-	_enemysAmount = 2;
+	_enemysAmount = 10;
 	_enemys = new Enemy[_enemysAmount];
 	_playerCrosshair = new PlayerCrosshair();	
 	_points = 0;
